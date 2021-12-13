@@ -2,6 +2,8 @@ const express = require('express');
 
 const app = express()
 
+app.use(express.json()); // donne acces au corp de la requête (req.body)
+
 //"app.use()" > methode qui permet d'attribuer un middlewae à une route spécifique de l'appli
 app.use((req, res, next) => {
     //permet dacceder à l'API depuis nimporte quelle origine
@@ -13,7 +15,14 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/api/stuff', (req, res, next) => {
+app.post('/api/stuff', (req, res, next) => {
+    console.log(req.body);
+    res.status(201).json({
+        message: 'objet créé !'
+    });
+})
+
+app.get('/api/stuff', (req, res, next) => {
     const stuff = [
     {
         _id: 'oeihfzeoi',
