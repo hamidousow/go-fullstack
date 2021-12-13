@@ -1,12 +1,49 @@
 const http = require('http'); //importer le package http de node 
-
-// const server = http.createServer((req, res) => {
-//     res.end('voila la reponse du serveur');
-// }); 
-
 const app = require('./app');
 
-app.set('port', process.env.PORT || 3000 );
-const server = http.createServer(app)
+const normalizePort = val => {
+    const port = parseInt(val, 10);
 
-server.listen(process.env.PORT || 3000); // process.env.PORT > variable environnement 
+    if(isNaN(port)) {
+        return val;
+    }
+    if(port >= 0) {
+        return port;
+    }
+
+    return false
+}
+
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+const errorHandler = error => {
+    if(error.syscall !== 'listen') {
+        throw error;
+    }
+    const adress = server.address();
+    const bind = typeof address === 'string' ? 'pipe' + adress : 'port' + port;
+    switch(error.code) {
+        case 'EACCESS': 
+            console.error(bind + ' requires elevated privilges.'); 
+            process.exit(1);
+            break;
+        case 'EADDRINUSE': 
+            console.error(bidn + ' is already in use.');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+const server = http.createServer(app);
+
+server.on('error', errorHandler);
+server.on('listening', () => {
+    const address = server.address();
+    const bind =typeof adress === 'string' ? 'pipe ' + address : 'port ' + port;
+    console.log('Listening on ' + bind)
+})
+
+server.listen(port);
