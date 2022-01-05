@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express(); // methode pour créer l'appli express
 const mongoose = require('mongoose');
-const stuffRoutes = require('./routes/stuff')
+const stuffRoutes = require('./routes/stuff');
+const userRoutes = require('./routes/user');
 
 mongoose.connect('mongodb+srv://user-test:motdepasse@cluster0.6fhsl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
     { useNewUrlParser: true,
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 })
 
 app.use('/api/stuff', stuffRoutes);
+app.use('/api/auth', userRoutes);
 
 
 module.exports = app;
